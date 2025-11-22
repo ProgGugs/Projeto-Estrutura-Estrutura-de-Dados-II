@@ -1,10 +1,8 @@
-package main.java.com.example;
+package com.example;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import main.java.com.example.ABB;
-import main.java.com.example.AVL;
 
 
 public class LeitorCSV {

@@ -1,3 +1,5 @@
+package com.example;
+
 public class NoABB<E extends Comparable<E>> {
     /*
      * Classe NoABB é genérica, aceita um tipo E, desde que

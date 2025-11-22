@@ -1,4 +1,4 @@
-package main.java.com.example;
+package com.example;
 
 public class Estudante implements Comparable<Estudante> {
     private int studentId;
@@ -141,9 +141,8 @@ public class Estudante implements Comparable<Estudante> {
 
     @Override
     public String toString() {
-        return "Estudante [nome=" + nome + ", genero=" + genero + ", nivelAcademico=" + nivelAcademico + ", pais="
-                + pais + ", mediaUsoDiario=" + mediaUsoDiario + ", appMaisUtilizado=" + appMaisUtilizado
-                + ", saudeMental=" + saudeMental + ", vicio=" + vicio + "]";
+        return "Estudante [studentId=" + studentId + ", idade=" + idade + ", genero=" + genero + ", nivelAcademico="
+                + nivelAcademico + ", pais=" + pais + ", saudeMental=" + saudeMental + ", vicio=" + vicio + "]";
     }
 
     @Override

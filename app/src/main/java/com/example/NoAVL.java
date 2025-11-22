@@ -1,3 +1,5 @@
+package com.example;
+
 public class NoAVL {
 	private Object dado;            //Dado do nó
 	private NoAVL pai;		//Pai do nó

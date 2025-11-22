@@ -4,15 +4,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class ABB <E extends Comparable<E>> {
-    private Node raiz;
+    private NoABB raiz;
 
     public ABB(){
         raiz = null; //árvore vazia
     }
-    public Node getRaiz() {
+    public NoABB getRaiz() {
         return raiz;
     }
-    public void setRaiz(Node raiz) {
+    public void setRaiz(NoABB raiz) {
         this.raiz = raiz;
     }
     public boolean isEmpty(){
@@ -20,18 +20,18 @@ public class ABB <E extends Comparable<E>> {
     }
     //método inserir
     public E inserir(E valor){
-        Node novo = new Node(valor);
+        NoABB novo = new NoABB(valor);
         inserir(novo, raiz);
         return valor;
     }
-    public Node inserir(Node novo, Node anterior){
+    public NoABB inserir(NoABB novo, NoABB anterior){
         if(raiz == null){ //ou if(isEmpty()){}
             raiz = novo;
             return raiz;
         }
         if (anterior!=null){
             //processo de comparação para verificar qual 
-            //lado será armazenado o Node
+            //lado será armazenado o NoABB
             //qdo o nó a ser inserido for menor que o anterior
             if(novo.getValue().compareTo(anterior.getValue())<0){
                 anterior.setFilhoEsq(
@@ -52,10 +52,10 @@ public class ABB <E extends Comparable<E>> {
     public void emOrdem(){
         emOrdem(raiz);
     }
-    public void emOrdem(Node no){
+    public void emOrdem(NoABB no){
         if(no != null){
             emOrdem(no.getFilhoEsq());
-            System.out.print(no.getValue());
+            System.out.println(no.getValue());
             emOrdem(no.getFilhoDir());
         }
     }
@@ -63,9 +63,9 @@ public class ABB <E extends Comparable<E>> {
     public void preOrdem(){
         preOrdem(raiz);
     }
-    public void preOrdem(Node no){
+    public void preOrdem(NoABB no){
         if(no != null){
-            System.out.print(no.getValue());
+            System.out.println(no.getValue());
             preOrdem(no.getFilhoEsq());
             preOrdem(no.getFilhoDir());
         }
@@ -73,21 +73,21 @@ public class ABB <E extends Comparable<E>> {
     public void posOrdem(){
         posOrdem(raiz);
     }
-    public void posOrdem(Node no){
+    public void posOrdem(NoABB no){
         if (no != null){
             posOrdem(no.getFilhoEsq());
             posOrdem(no.getFilhoDir());
-            System.out.print(no.getValue());
+            System.out.println(no.getValue());
         }
     }
     //em nível
     public void emNivel(){
         if(raiz == null) return;
-        Queue<Node> fila = new LinkedList<>();
+        Queue<NoABB> fila = new LinkedList<>();
         fila.add(raiz);
         while(!fila.isEmpty()){
-            Node atual = fila.poll();
-            System.out.print(atual.getValue());
+            NoABB atual = fila.poll();
+            System.out.println(atual.getValue());
             if(atual.getFilhoEsq() != null)
                 fila.add(atual.getFilhoEsq());
             if(atual.getFilhoDir() != null)
@@ -97,11 +97,11 @@ public class ABB <E extends Comparable<E>> {
     //Determina o maior elemento a partir de um nó 'raiz' 
     //(e enlaça seu pai para eliminar esse nodo 'raiz' desta posição).
     //Retorna o nodo com maior valor desta subárvore.
-    public Node getMax(Node raiz, Node paiRaiz) {
+    public NoABB getMax(NoABB raiz, NoABB paiRaiz) {
         if (isEmpty()) {
             return null;
         }
-        Node aux;
+        NoABB aux;
         //Se não tiver mais filho direito
         if (raiz.getFilhoDir() == null) { //encontrou o maior
             aux = raiz;
@@ -126,15 +126,15 @@ public class ABB <E extends Comparable<E>> {
         return eliminar(raiz, null, e);
     }
     //Rotina para eliminar
-    private boolean eliminar(Node node, Node paiRaiz, Object e) {  // remove um elemento da árvore, retorna true ou false
-        Node aux;
-        if (node == null) {  // não achou o elemento, não existe (chegou em uma folha, ou árvore vazia)
+    private boolean eliminar(NoABB NoABB, NoABB paiRaiz, Object e) {  // remove um elemento da árvore, retorna true ou false
+        NoABB aux;
+        if (NoABB == null) {  // não achou o elemento, não existe (chegou em uma folha, ou árvore vazia)
                 return false;  // abandonamos o método retornando false, não foi possível eliminar
         } else { // a árvore ou sub-árvore não está vazia:
-            if (compara(e, node.getValue()) == 0) {  // se o nó a eliminar, node, foi encontrado (ele guarda o objeto e)
-                aux = node;
-                if (node.getFilhoEsq() == null && node.getFilhoDir() == null) {  // caso 1: se node não possui filhos, basta eliminar o nó
-                            if (paiRaiz == null) {  // se o node a eliminar não tiver pai, ele era a raiz da árvore, então a árvore ficou vazia
+            if (compara(e, NoABB.getValue()) == 0) {  // se o nó a eliminar, NoABB, foi encontrado (ele guarda o objeto e)
+                aux = NoABB;
+                if (NoABB.getFilhoEsq() == null && NoABB.getFilhoDir() == null) {  // caso 1: se NoABB não possui filhos, basta eliminar o nó
+                            if (paiRaiz == null) {  // se o NoABB a eliminar não tiver pai, ele era a raiz da árvore, então a árvore ficou vazia
                                 setRaiz(null);  // convenção para ABB vazia
                             } 
                             else {  // senão, o pai deve "deserdar" o filho (ficar sem esse filho eliminado)
@@ -145,43 +145,43 @@ public class ABB <E extends Comparable<E>> {
                                     paiRaiz.setFilhoDir(null);
                                 }
                             }
-                } else if (node.getFilhoDir() == null) {   // caso 2a: se node só tiver o filho esquerdo
-                            if (paiRaiz != null) {  // se node tiver um pai, o pai (paiRaiz) assume o filho esquerdo de node
+                } else if (NoABB.getFilhoDir() == null) {   // caso 2a: se NoABB só tiver o filho esquerdo
+                            if (paiRaiz != null) {  // se NoABB tiver um pai, o pai (paiRaiz) assume o filho esquerdo de NoABB
                                 // verifica se a raiz é filho esquerdo ou direito de paiRaiz, para assumir o neto:
                                 if (paiRaiz.getFilhoEsq() != null && compara(paiRaiz.getFilhoEsq().getValue(), e) == 0) {
-                                    paiRaiz.setFilhoEsq(node.getFilhoEsq());
+                                    paiRaiz.setFilhoEsq(NoABB.getFilhoEsq());
                                 } else {
-                                    paiRaiz.setFilhoDir(node.getFilhoEsq());
+                                    paiRaiz.setFilhoDir(NoABB.getFilhoEsq());
                                 }
                             } 
-                            else { // se node não tiver pai (caso da raiz da árvore, paiRaiz é nulo), adotar seu filho ou mover a raiz:
-                                node.setValue(node.getFilhoEsq().getValue());
+                            else { // se NoABB não tiver pai (caso da raiz da árvore, paiRaiz é nulo), adotar seu filho ou mover a raiz:
+                                NoABB.setValue(NoABB.getFilhoEsq().getValue());
                                 raiz = raiz.getFilhoEsq();  // mover a raiz da árvore
                             }
-                } else if (node.getFilhoEsq() == null) {   // caso 2b: se node só tiver o filho direito                    
-                        if (paiRaiz != null) {  //se node tiver um pai, o pai (paiRaiz) assume o filho direito de node:
-                            // verifica se a raiz paiRaiz tem node como filho esquerdo ou direito, para assumir o neto:
+                } else if (NoABB.getFilhoEsq() == null) {   // caso 2b: se NoABB só tiver o filho direito                    
+                        if (paiRaiz != null) {  //se NoABB tiver um pai, o pai (paiRaiz) assume o filho direito de NoABB:
+                            // verifica se a raiz paiRaiz tem NoABB como filho esquerdo ou direito, para assumir o neto:
                             if (paiRaiz.getFilhoEsq() != null && compara(paiRaiz.getFilhoEsq().getValue(), e) == 0) {
-                                paiRaiz.setFilhoEsq(node.getFilhoDir());
+                                paiRaiz.setFilhoEsq(NoABB.getFilhoDir());
                             } else {
-                                paiRaiz.setFilhoDir(node.getFilhoDir());
+                                paiRaiz.setFilhoDir(NoABB.getFilhoDir());
                             }
                         } 
-                        else {  // se node não tiver pai (caso da raiz da árvore, paiRaiz é nulo), adotar seu filho ou mover a raiz:
-                            node.setValue(node.getFilhoDir().getValue());
+                        else {  // se NoABB não tiver pai (caso da raiz da árvore, paiRaiz é nulo), adotar seu filho ou mover a raiz:
+                            NoABB.setValue(NoABB.getFilhoDir().getValue());
                             raiz = raiz.getFilhoDir();  // mover a raiz da árvore
                         }
-                } else {   //caso 3: o nodo node possui os dois filhos:
-                            aux = getMax(node.getFilhoEsq(), node); //determina o maior da subárvore esquerda
-                            node.setValue(aux.getValue());
+                } else {   //caso 3: o nodo NoABB possui os dois filhos:
+                            aux = getMax(NoABB.getFilhoEsq(), NoABB); //determina o maior da subárvore esquerda
+                            NoABB.setValue(aux.getValue());
                 }
                 aux = null;
                 return true;  // fim dos casos em que o nó a eliminar foi encontrado, retornamos true
-            } else { // se node não é o nó a eliminar, continuamos procurando recursivamente:
-                    if (compara(e, node.getValue()) < 0) { // se o objeto e for menor que o objeto em node, continuar procurando à esquerda:
-                        return eliminar(node.getFilhoEsq(), node, e);  // chamada recursiva
+            } else { // se NoABB não é o nó a eliminar, continuamos procurando recursivamente:
+                    if (compara(e, NoABB.getValue()) < 0) { // se o objeto e for menor que o objeto em NoABB, continuar procurando à esquerda:
+                        return eliminar(NoABB.getFilhoEsq(), NoABB, e);  // chamada recursiva
                     } else { // senão, procurar à direita:
-                        return eliminar(node.getFilhoDir(), node, e);  // chamada recursiva
+                        return eliminar(NoABB.getFilhoDir(), NoABB, e);  // chamada recursiva
                     }
             }
         }
