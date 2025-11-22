@@ -2,17 +2,17 @@ package com.example;
 
 import java.util.LinkedList;
 
-public class AVL {
+public class AVL<E extends Comparable<E>> {
 
     private NoAVL raiz;			//Raiz da árvore
     private boolean flagInsercao;	//Verifica se já foi feita a inserção
     private boolean flagRemove;		//Verifica se já foi feita a remoção
 
-    public AVL(Object dado, NoAVL pai, NoAVL esq, NoAVL dir) {
+    public AVL(E dado, NoAVL pai, NoAVL esq, NoAVL dir) {
         raiz = new NoAVL(dado, pai, esq, dir);
     }
 
-    public AVL(Object dado) {
+    public AVL(E dado) {
         this(dado, null, null, null);
     }
 
@@ -32,26 +32,22 @@ public class AVL {
         return (raiz == null);
     }
 
-    private int compara(Object ob1, Object ob2) {
-        return ((Comparable)ob1).compareTo(ob2);
-    }
-
-    private NoAVL searchNoAVL(NoAVL raiz, Object e) {
+    private NoAVL searchNoAVL(NoAVL raiz, E e) {
         //Se a raiz estiver nula, o elemento não existe
         if (raiz == null) {
             return null;
         } else //Elemento encontrado na raiz
-        if (compara(e, raiz.getDado()) == 0) {
+        if (e.compareTo((E) raiz.getDado()) == 0) {
             return raiz;
         } else //Continue procurando recursivamente
-        if (compara(e, raiz.getDado()) < 0) {
+        if (e.compareTo((E) raiz.getDado()) < 0) {
             return searchNoAVL(raiz.getEsq(), e);
         } else {
             return searchNoAVL(raiz.getDir(), e);
         }
     }
 
-    public NoAVL searchAVL(Object e) {
+    public NoAVL searchAVL(E e) {
         return searchNoAVL(raiz, e);
     }
 
@@ -127,15 +123,15 @@ public class AVL {
     }
 
     //Insere um item na árvore a partir da raiz (método público)
-    public void insereAVL(Object k) {
+    public void insereAVL(E k) {
         flagInsercao = false;
         setRaiz(insereNoAVL(raiz, k));
     }
 
     //Método que faz a inserção
-    private NoAVL insereNoAVL(NoAVL raiz, Object x) {
+    private NoAVL insereNoAVL(NoAVL raiz, E x) {
         if (raiz != null) { //Se o nó não for nulo
-            if (compara(x, raiz.getDado()) < 0) { //Se x for menor que o nó atual, insere recursivamente à esquerda
+            if (x.compareTo((E) raiz.getDado()) < 0) { //Se x for menor que o nó atual, insere recursivamente à esquerda
                 raiz.setEsq(insereNoAVL(raiz.getEsq(), x));
                 raiz.getEsq().setPai(raiz);
                 if (flagInsercao) { //Se já inseriu
@@ -207,7 +203,7 @@ public class AVL {
     }
 
     //Remove uma Object k da árvore AVl (método público)
-    public boolean removeAVL(Object k) {
+    public boolean removeAVL(E k) {
         flagRemove = false;
         if (isEmpty()) {
             System.out.println("Erro ao remover, árvore AVL está vazia!");
@@ -222,16 +218,16 @@ public class AVL {
     }
 
     //Método privado recursivo
-    private NoAVL removeNoAVL(NoAVL raiz, Object x) {
+    private NoAVL removeNoAVL(NoAVL raiz, E x) {
         //Se o elemento for menor que a raiz, chamar recursivamente para o lado esquerdo
-        if (compara(x, raiz.getDado()) < 0) {
+        if (x.compareTo((E) raiz.getDado()) < 0) {
             raiz.setEsq(removeNoAVL(raiz.getEsq(), x));
             //Se já removeu, relabancear
             if (flagRemove) {
                 raiz = balanceamentoEsquerdo(raiz);
             }
         } //Se o elemento for maior que a raiz, chamar recursivamente para o lado direito
-        else if (compara(x, raiz.getDado()) > 0) {
+        else if (x.compareTo((E) raiz.getDado()) > 0) {
             raiz.setDir(removeNoAVL(raiz.getDir(), x));
             //Se já removeu, relabancear
             if (flagRemove) {

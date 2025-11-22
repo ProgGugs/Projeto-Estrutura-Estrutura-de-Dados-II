@@ -72,7 +72,7 @@ public class Menu {
     public void menuAVL() {
         Scanner sc = new Scanner(System.in);
         LeitorCSV leitor = new LeitorCSV();
-        AVL arvore = leitor.leitorAVL();
+        AVL<Estudante> arvore = leitor.leitorAVL();
 
         if (arvore == null || arvore.getRaiz() == null) {
             System.out.println("Erro: árvore não carregada!");
@@ -153,7 +153,7 @@ public class Menu {
      * Mostra os dados de todos os estudantes 
      * armazenados na Árvore AVL, usando percurso Em-Ordem
      */
-    public static void mostrarDados(NoAVL no) {
+    public static void mostrarDados(NoAVL<Estudante> no) {
         if (no == null)
             return;
 
@@ -274,7 +274,7 @@ public class Menu {
      * e acumulando o resultado em um Hash Map, recebido como parâmetro do método,
      * para agrupar os dados por país
      */
-    private static void analisarVicioRec(NoAVL no, Map<String, double[]> dados) {
+    private static void analisarVicioRec(NoAVL<Estudante> no, Map<String, double[]> dados) {
         if (no == null)
             return;
 
@@ -339,7 +339,7 @@ public class Menu {
      * Calcula a média dos dados da AVL (Saúde Mental) para Homens e Mulheres,
      * agrupados em um Hash Map pelo "Pais" e usando o método "analisarGeneroRec()"
      */
-    public static void analisarSaudeMental(NoAVL raiz) {
+    public static void analisarSaudeMental(NoAVL<Estudante> raiz) {
         Map<String, int[]> dados = new HashMap<>();
         analisarGeneroRec(raiz, dados);
 
@@ -403,7 +403,7 @@ public class Menu {
      * pré-ordem, e acumulando o resultado em um Hash Map, recebido como parâmetro do método,
      * para agrupar os dados por país
      */
-    private static void analisarGeneroRec(NoAVL no, Map<String, int[]> dados) {
+    private static void analisarGeneroRec(NoAVL<Estudante> no, Map<String, int[]> dados) {
         if (no == null)
             return;
 
@@ -480,7 +480,7 @@ public class Menu {
      * de determinda Platforma de Rede Social, agrupando os dados em um Hash Map pelo "Pais" 
      * e usando o método "analisarPlataformasRec()"
      */
-    public static void analisarPlataformas(NoAVL raiz) {
+    public static void analisarPlataformas(NoAVL<Estudante> raiz) {
         Map<String, int[]> dados = new HashMap<>();
         analisarPlataformasRec(raiz, dados);
 
@@ -553,7 +553,7 @@ public class Menu {
      * e acumulando o resultado em um Hash Map, recebido como parâmetro do método,
      * para agrupar os dados por Plataforma
      */
-    private static void analisarPlataformasRec(NoAVL no, Map<String, int[]> dados) {
+    private static void analisarPlataformasRec(NoAVL<Estudante> no, Map<String, int[]> dados) {
         if (no == null)
             return;
 

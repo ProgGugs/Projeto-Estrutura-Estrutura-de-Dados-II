@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class LeitorCSV {
     
-    public ABB leitorABB() {
+    public ABB<Estudante> leitorABB() {
         String filePath = "C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv";
 
         try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -15,7 +15,7 @@ public class LeitorCSV {
             // Pulando o cabeçalho do arquivo
             reader.readLine();
 
-            ABB arvore = new ABB();
+            ABB<Estudante> arvore = new ABB<Estudante>();
 
             while ((line = reader.readLine()) != null) {
                 String[] valores = line.split(";");
@@ -52,7 +52,7 @@ public class LeitorCSV {
         return null;
     }
 
-    public AVL leitorAVL() {
+    public AVL<Estudante> leitorAVL() {
         String filePath = "C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv";
 
         try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -60,7 +60,7 @@ public class LeitorCSV {
             // Pulando o cabeçalho do arquivo
             reader.readLine();
 
-            AVL arvore = new AVL();
+            AVL<Estudante> arvore = new AVL<Estudante>();
 
             while ((line = reader.readLine()) != null) {
                 String[] valores = line.split(";");

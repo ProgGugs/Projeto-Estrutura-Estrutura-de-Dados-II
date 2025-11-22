@@ -1,13 +1,13 @@
 package com.example;
 
-public class NoAVL {
-	private Object dado;            //Dado do nó
+public class NoAVL<E extends Comparable<E>> {
+	private E dado;            //Dado do nó
 	private NoAVL pai;		//Pai do nó
 	private NoAVL esq;		//Filho Esquerdo
 	private NoAVL dir;		//Filho Direito
 	private int fb;			//Fator de Balanceamento
 		
-	public NoAVL(Object x, NoAVL p, NoAVL e, NoAVL d)	{
+	public NoAVL(E x, NoAVL p, NoAVL e, NoAVL d)	{
 		dado = x;
 		pai  = p;
 		esq  = e;
@@ -20,18 +20,18 @@ public class NoAVL {
     }
         
 	public NoAVL() {
-		this("",null,null,null);
+		this(null,null,null,null);
 	}
 	
-	public NoAVL(Object _dado) {
+	public NoAVL(E _dado) {
 		this(_dado,null,null,null);
 	}
 	
-	public Object getDado() {
+	public E getDado() {
 		return dado;
 	}
 	
-	public void setDado(Object _dado) {
+	public void setDado(E _dado) {
 		dado = _dado;
 	}
 	

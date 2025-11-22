@@ -1,10 +1,6 @@
 package com.example;
 
 import java.util.Scanner;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Main {
 
@@ -48,5 +44,6 @@ public class Main {
         } else {
             System.out.println("Erro ao escolher a Árvore!");
         }
+        sc.close();
     }
 }
