@@ -59,14 +59,16 @@ public class ABB <E extends Comparable<E>> {
     }
     //percorrer
     //em-ordem
-    public void emOrdem(){
-        emOrdem(raiz);
+    public int emOrdem(){
+        Contador contador = new Contador();
+        emOrdem(raiz, contador);
+        return contador.valor;
     }
-    public void emOrdem(NoABB no){
+    public void emOrdem(NoABB no, Contador contador){
         if(no != null){
-            emOrdem(no.getFilhoEsq());
-            System.out.println(no.getValue());
-            emOrdem(no.getFilhoDir());
+            contador.valor++;
+            emOrdem(no.getFilhoEsq(), contador);
+            emOrdem(no.getFilhoDir(), contador);
         }
     }
 
@@ -114,15 +116,42 @@ public class ABB <E extends Comparable<E>> {
                 fila.add(atual.getFilhoDir());    
         }
     }
+    
+    public int buscar(E valor) {
+        Contador contador = new Contador();
+        buscar(raiz, valor, contador);
+        return contador.valor;
+    }
+
+    private NoABB buscar(NoABB no, E valor, Contador contador) {
+        if (no == null) {
+            return null; // não achou
+        }
+
+        contador.valor++;
+        int cmp = valor.compareTo((E) no.getValue());
+
+        if (cmp == 0) {
+            return no;
+        }
+        else if (cmp < 0) {
+            return buscar(no.getFilhoEsq(), valor, contador);
+        }
+        else {
+            return buscar(no.getFilhoDir(), valor, contador);
+        }
+    }
+
     //Determina o maior elemento a partir de um nó 'raiz' 
     //(e enlaça seu pai para eliminar esse nodo 'raiz' desta posição).
     //Retorna o nodo com maior valor desta subárvore.
-    public NoABB getMax(NoABB raiz, NoABB paiRaiz) {
+    public NoABB getMax(NoABB raiz, NoABB paiRaiz, Contador contador) {
         if (isEmpty()) {
             return null;
         }
         NoABB aux;
         //Se não tiver mais filho direito
+        contador.valor++;
         if (raiz.getFilhoDir() == null) { //encontrou o maior
             aux = raiz;
             //Se tiver um pai, ele assume o filho esquerdo (nunca terá filho direito)
@@ -135,7 +164,7 @@ public class ABB <E extends Comparable<E>> {
             }
             return aux;
         } else {
-            return getMax(raiz.getFilhoDir(), raiz);
+            return getMax(raiz.getFilhoDir(), raiz, contador);
         }
     }
 
@@ -195,7 +224,7 @@ public class ABB <E extends Comparable<E>> {
                             raiz = raiz.getFilhoDir();  // mover a raiz da árvore
                         }
                 } else {   //caso 3: o nodo NoABB possui os dois filhos:
-                            aux = getMax(NoABB.getFilhoEsq(), NoABB); //determina o maior da subárvore esquerda
+                            aux = getMax(NoABB.getFilhoEsq(), NoABB, contador); //determina o maior da subárvore esquerda
                             NoABB.setValue(aux.getValue());
                 }
                 aux = null;

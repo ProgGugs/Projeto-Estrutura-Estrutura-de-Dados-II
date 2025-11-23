@@ -5,59 +5,62 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Operations {
 
-    public int comparativoInsercao(ABB abb, AVL avl) {
-        Scanner sc = new Scanner(System.in);
+    public int comparativoInsercao(ABB abb, AVL avl, Scanner sc, int id_ultimo) {
+        int quantidade = 0;
         try {
-            int quantidade = 0;
             System.out.print("Você quer que sejam feitas quantas inserções em cada árvore: ");
-            quantidade = sc.nextInt();
-            sc.nextLine();
+            String entrada = sc.nextLine();
+            quantidade = Integer.parseInt(entrada);
             int somaABBComparacoes = 0;
             int somaAVLComparacoes = 0;
             int somaAVLRotacoes = 0;
-            for (int i = 1; i <= quantidade; i++) {
-                Estudante estudante = new Estudante(705 + i);
+            for (int i = id_ultimo+1; i <= quantidade+id_ultimo; i++) {
+                Estudante estudante = new Estudante(i);
                 somaABBComparacoes += abb.inserir(estudante);
                 int[] cont = avl.insereAVL(estudante);
                 somaAVLComparacoes += cont[0];
                 somaAVLRotacoes += cont[1];
             }
+            System.out.println("\n========== RESULTADO ==========");
             System.out.println("Número de comparações (ABB): " + somaABBComparacoes);
             System.out.println("Número de comparações (AVL): " + somaAVLComparacoes);
             System.out.println("Número de rotações (AVL): " + somaAVLRotacoes);
         } catch (Exception e) {
             System.out.println("Entrada inválida!");
         }
-        sc.close();
-        return 0;
+        return quantidade+id_ultimo;
     }
 
-    public int comparativoRemocao(ABB abb, AVL avl) {
-        Scanner sc = new Scanner(System.in);
+    public int comparativoRemocao(ABB abb, AVL avl, Scanner sc, int id_atual) {
+        int quantidade = 0;
         try {
-            int quantidade = 0;
-            System.out.print("Você quer que sejam feitas quantas remoções em cada árvore (Limite de 700): ");
-            quantidade = sc.nextInt();
-            sc.nextLine();
-            while (quantidade > 750 || quantidade < 0) {
+            int limiteABB = abb.emOrdem();
+            int limiteAVL = avl.emOrdem();
+            System.out.printf("Você quer que sejam feitas quantas remoções em cada árvore (Limite de %d ABB e %d AVL): ", limiteABB, limiteAVL);
+            String entrada = sc.nextLine();
+            quantidade = Integer.parseInt(entrada);
+            while (quantidade > limiteABB || quantidade > limiteAVL || quantidade < 0) {
                 System.out.println("Entrada inválida!");
-                System.out.print("Você quer que sejam feitas quantas remoções em cada árvore (Limite de 700): ");
-                quantidade = sc.nextInt();
-                sc.nextLine();
+                System.out.printf("Você quer que sejam feitas quantas remoções em cada árvore (Limite de %d ABB e %d AVL): ", limiteABB, limiteAVL);
+                entrada = sc.nextLine();
+                quantidade = Integer.parseInt(entrada);
             }
             int somaABBComparacoes = 0;
             int somaAVLComparacoes = 0;
             int somaAVLRotacoes = 0;
-            for (int i = 1; i <= quantidade; i++) {
+            for (int i = id_atual; i <= quantidade+id_atual-1; i++) {
                 Estudante estudante = new Estudante(i);
                 somaABBComparacoes += abb.eliminar(estudante);
                 int[] cont = avl.removeAVL(estudante);
                 somaAVLComparacoes += cont[0];
                 somaAVLRotacoes += cont[1];
             }
+            System.out.println("\n========== RESULTADO ==========");
             System.out.println("Número de comparações (ABB): " + somaABBComparacoes);
             System.out.println("Número de comparações (AVL): " + somaAVLComparacoes);
             System.out.println("Número de rotações (AVL): " + somaAVLRotacoes);
@@ -65,9 +68,73 @@ public class Operations {
             System.out.println("Erro:");
             e.printStackTrace();
         }
-        sc.close();
-        return 0;
+        return quantidade+id_atual;
     }
+
+    public String nanosParaMiliSegundos(long nanos) {
+        BigDecimal ns = new BigDecimal(nanos);
+        BigDecimal divisor = new BigDecimal("1000000"); // 1e6
+        
+        // divide e mantém 10 casas decimais
+        BigDecimal milisegundos = ns.divide(divisor, 10, RoundingMode.HALF_UP);
+        
+        return milisegundos.toString();
+    }
+
+    public void comparativoBusca(ABB abb, AVL avl, Scanner sc, int id_atual) {
+        int quantidade = 0;
+        try {
+            int limiteABB = abb.emOrdem();
+            int limiteAVL = avl.emOrdem();
+            System.out.printf("Você quer que sejam feitas quantas buscas em cada árvore (Limite de %d ABB e %d AVL): ", limiteABB, limiteAVL);
+            String entrada = sc.nextLine();
+            quantidade = Integer.parseInt(entrada);
+            List<Estudante> conjuntoABB = new ArrayList<Estudante>();
+            List<Estudante> conjuntoAVL = new ArrayList<Estudante>();
+
+            for (int i = 0; i < quantidade;i++) {
+                System.out.printf("Quais valores você quer que sejam buscados? (Entre %d e %d): ", id_atual, id_atual+limiteABB-1);
+                entrada = sc.nextLine();
+                int studentId = Integer.parseInt(entrada);
+                while (studentId > id_atual+limiteABB-1 || studentId > id_atual+limiteABB-1 || studentId < id_atual) {
+                    System.out.println("Entrada inválida!");
+                    System.out.printf("Quais valores você quer que sejam buscados? (Entre %d e %d): ", id_atual, id_atual+limiteABB-1);
+                    entrada = sc.nextLine();
+                    studentId = Integer.parseInt(entrada);
+                }
+                Estudante estudante = new Estudante(studentId);
+                conjuntoABB.add(estudante);
+                conjuntoAVL.add(estudante);
+            }
+            int somaABBComparacoes = 0;
+            int somaAVLComparacoes = 0;
+            long tempoABB = 0;
+            long tempoAVL = 0;
+            long inicio = 0, fim = 0;
+            for (int i = 0; i < quantidade; i++) {
+                inicio = System.nanoTime();   // começa cronômetro
+                somaABBComparacoes += abb.buscar(conjuntoABB.get(i));
+                fim = System.nanoTime();  
+                tempoABB += fim - inicio;
+                inicio = System.nanoTime();
+                somaAVLComparacoes += avl.searchAVLCont(conjuntoAVL.get(i));
+                fim = System.nanoTime();
+                tempoAVL += fim - inicio;
+            }
+            long mediaABB = tempoABB / quantidade;
+            long mediaAVL = tempoAVL / quantidade;
+            System.out.println("\n========== RESULTADO ==========");
+            System.out.println("Número de comparações (ABB): " + somaABBComparacoes);
+            System.out.println("Tempo de execução (ABB): " + nanosParaMiliSegundos(mediaABB) + " ms");
+            System.out.println("Número de comparações (AVL): " + somaAVLComparacoes);
+            System.out.println("Tempo de execução (AVL):" + nanosParaMiliSegundos(mediaAVL) + " ms");
+
+        } catch (Exception e) {
+            System.out.println("Erro:");
+            e.printStackTrace();
+        }
+    }
+
 
     /*
      * Mostra os dados de todos os estudantes

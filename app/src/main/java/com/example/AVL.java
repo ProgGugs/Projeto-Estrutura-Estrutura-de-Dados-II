@@ -37,27 +37,36 @@ public class AVL<E extends Comparable<E>> {
         public int rotacoes = 0;
     }
 
-    private NoAVL searchNoAVL(NoAVL raiz, E e) {
+    private NoAVL searchNoAVL(NoAVL raiz, E e, Contador contador) {
         // Se a raiz estiver nula, o elemento não existe
         if (raiz == null) {
             return null;
         } else // Elemento encontrado na raiz
+        contador.comparacoes++;
         if (e.compareTo((E) raiz.getDado()) == 0) {
             return raiz;
         } else // Continue procurando recursivamente
         if (e.compareTo((E) raiz.getDado()) < 0) {
-            return searchNoAVL(raiz.getEsq(), e);
+            return searchNoAVL(raiz.getEsq(), e, contador);
         } else {
-            return searchNoAVL(raiz.getDir(), e);
+            return searchNoAVL(raiz.getDir(), e, contador);
         }
     }
 
     public NoAVL searchAVL(E e) {
-        return searchNoAVL(raiz, e);
+        Contador contador = new Contador();
+        return searchNoAVL(raiz, e, contador);
+    }
+
+    public int searchAVLCont(E e) {
+        Contador contador = new Contador();
+        searchNoAVL(raiz, e, contador);
+        return contador.comparacoes;
     }
 
     // Rotação Simples para a Direita
-    private NoAVL rotacaoSD(NoAVL A) {
+    private NoAVL rotacaoSD(NoAVL A, Contador contador) {
+        contador.rotacoes++;
         NoAVL B = A.getEsq();
 
         // Se não for a raiz, A tem um pai:
@@ -89,7 +98,8 @@ public class AVL<E extends Comparable<E>> {
     }
 
     // Rotação Simples para a Esquerda
-    private NoAVL rotacaoSE(NoAVL A) {
+    private NoAVL rotacaoSE(NoAVL A, Contador contador) {
+        contador.rotacoes++;
         NoAVL B = A.getDir();
         // Se não for a raiz, tem um pai
         if (A.getPai() != null) // Se A for o filho esquerdo, o pai assume como filho esquerdo o B
@@ -116,15 +126,15 @@ public class AVL<E extends Comparable<E>> {
     }
 
     // Rotação dupla para a direita
-    private NoAVL rotacaoDD(NoAVL A) {
-        rotacaoSE(A.getEsq());
-        return (rotacaoSD(A));
+    private NoAVL rotacaoDD(NoAVL A, Contador contador) {
+        rotacaoSE(A.getEsq(), contador);
+        return (rotacaoSD(A, contador));
     }
 
     // Rotação dupla para a esquerda
-    private NoAVL rotacaoDE(NoAVL A) {
-        rotacaoSD(A.getDir());
-        return (rotacaoSE(A));
+    private NoAVL rotacaoDE(NoAVL A, Contador contador) {
+        rotacaoSD(A.getDir(), contador);
+        return (rotacaoSE(A, contador));
     }
 
     // Insere um item na árvore a partir da raiz (método público)
@@ -154,15 +164,14 @@ public class AVL<E extends Comparable<E>> {
                             raiz.setFb(-1);
                             break;
                         case -1: // Caso já tinha um filho esquerdo, tem que rotacionar
-                            contador.rotacoes++;
                             // Se o filho esquerdo só tinha um filho esquerdo, então rotação simples para a
                             // direita
                             if (raiz.getEsq().getFb() == -1) {
-                                raiz = rotacaoSD(raiz);
+                                raiz = rotacaoSD(raiz, contador);
                                 raiz.setFb(0);
                                 raiz.getDir().setFb(0);
                             } else { // Caso contrário a rotação é dupla para a direita
-                                raiz = rotacaoDD(raiz); // rotacaoDD retorna a nova raiz
+                                raiz = rotacaoDD(raiz, contador); // rotacaoDD retorna a nova raiz
                                 raiz.getDir().setFb(0);
                                 raiz.getEsq().setFb(0);
                                 raiz.setFb(0);
@@ -185,15 +194,14 @@ public class AVL<E extends Comparable<E>> {
                             flagInsercao = false;
                             break;
                         case 1: // Se já tinha filhos direito, tem que rotacionar
-                            contador.rotacoes++;
                             // Se o filho direito tiver apenas um filho direito, então é rotação simples
                             // para a esquerda
                             if (raiz.getDir().getFb() == 1) {
-                                raiz = rotacaoSE(raiz);
+                                raiz = rotacaoSE(raiz, contador);
                                 raiz.setFb(0);
                                 raiz.getEsq().setFb(0);
                             } else { // Caso contrário, rotação dupla para a esquerda
-                                raiz = rotacaoDE(raiz); // rotacaoDE retorna a nova raiz
+                                raiz = rotacaoDE(raiz, contador); // rotacaoDE retorna a nova raiz
                                 raiz.getDir().setFb(0);
                                 raiz.getEsq().setFb(0);
                                 raiz.setFb(0);
@@ -288,12 +296,9 @@ public class AVL<E extends Comparable<E>> {
         if (no.getFb() == 2) {
             NoAVL dir = no.getDir();
             if (dir != null && dir.getFb() >= 0) {
-                contador.rotacoes++;
-                return rotacaoSE(no); // simples
+                return rotacaoSE(no, contador); // simples
             }
-
-            contador.rotacoes++;
-            return rotacaoDD(no); // dupla
+            return rotacaoDD(no, contador); // dupla
         }
 
         flagRemove = (no.getFb() == 0);
@@ -307,12 +312,9 @@ public class AVL<E extends Comparable<E>> {
         if (no.getFb() == -2) {
             NoAVL esq = no.getEsq();
             if (esq != null && esq.getFb() <= 0) {
-                contador.rotacoes++;
-                return rotacaoSD(no); // simples
+                return rotacaoSD(no, contador); // simples
             }
-            contador.rotacoes++;
-
-            return rotacaoDE(no); // dupla
+            return rotacaoDE(no, contador); // dupla
         }
 
         flagRemove = (no.getFb() == 0);
@@ -322,6 +324,7 @@ public class AVL<E extends Comparable<E>> {
     // Busca o maior valor da subárvore esquerda para substituir o nó excluído
     private NoAVL buscaRemove(NoAVL raiz, NoAVL noChave, Contador contador) {
         NoAVL noRemovido;
+        contador.comparacoes++;
         if (raiz.getDir() != null) {
             raiz.setDir(buscaRemove(raiz.getDir(), noChave, contador));
             if (flagRemove) {
@@ -357,6 +360,21 @@ public class AVL<E extends Comparable<E>> {
         }
 
         return resp;
+    }
+
+    public int emOrdem() {
+        Contador contador = new Contador();
+        emOrdem(raiz, contador);
+        return contador.comparacoes;
+    }
+
+    // Atravessamento em ordem
+    private void emOrdem(NoAVL raiz, Contador contador) {
+        if (raiz != null) {
+            contador.comparacoes++;
+            emOrdem(raiz.getEsq(), contador);
+            emOrdem(raiz.getDir(), contador);
+        }
     }
 
     public String preOrdemString() {

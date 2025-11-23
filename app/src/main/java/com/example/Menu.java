@@ -6,10 +6,8 @@ public class Menu {
 
     private Operations operation = new Operations();
 
-    public int menuInicial() {
-
-        Scanner sc = new Scanner(System.in);
-        int opcao = 0;
+    public int menuInicial(Scanner sc) {
+        int opcao = -1;
 
         do {
             try {
@@ -17,15 +15,15 @@ public class Menu {
                 System.out.println("1 - Análise Eploratória");
                 System.out.println("2 - Comparativo de Desempenho (ABB x AVL)");
                 System.out.println("0 - Sair");
-                System.out.print("Escolha uma opção: ");
-                opcao = sc.nextInt();
-                sc.nextLine();
+                System.out.print("Escolha uma opção: "); 
+                String entrada = sc.nextLine();
+                opcao = Integer.parseInt(entrada);
                 switch (opcao) {
                     case 1:
-                        menuEscolhaArvore();
+                        menuEscolhaArvore(sc);
                         break;
                     case 2:
-                        menuComparativo();
+                        menuComparativo(sc);
                         break;
                     case 0:
                         System.out.println("Saindo...");;
@@ -35,22 +33,19 @@ public class Menu {
                         break;
                 }
             } catch (Exception e) {
-                sc.nextLine();
                 System.out.println("Opção inválida!");
             }
-        } while (opcao < 0 || opcao > 2);
-        sc.close();
+        } while (opcao != 0);
         return opcao;
     }
 
-    public void menuComparativo() {
-
-        Scanner sc = new Scanner(System.in);
+    public void menuComparativo(Scanner sc) {
         int opcao = 0;
         LeitorCSV leitorCSV = new LeitorCSV();
         ABB<Estudante> abb = leitorCSV.leitorABB("C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv");
         AVL<Estudante> avl = leitorCSV.leitorAVL("C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv");
-
+        int id_atual = 1;
+        int id_ultimo = 705;
         do {
             try {
                 System.out.println("\n====== COMPARATIVO DE DESEMPENHO ======");
@@ -59,36 +54,32 @@ public class Menu {
                 System.out.println("3 - Operação de Busca");
                 System.out.println("0 - Voltar para o Menu Inicial");
                 System.out.print("Escolha uma opção: ");
-                opcao = sc.nextInt();
-                sc.nextLine();
+                String entrada = sc.nextLine();
+                opcao = Integer.parseInt(entrada);
                 switch (opcao) {
                     case 1:
-                        operation.comparativoInsercao(abb, avl);
+                        id_ultimo = operation.comparativoInsercao(abb, avl, sc, id_ultimo);
                         break;
                     case 2:
-                        operation.comparativoRemocao(abb, avl);
+                        id_atual = operation.comparativoRemocao(abb, avl, sc, id_atual);
                         break;
                     case 3:
-                        System.out.println("Em construção...");
+                        operation.comparativoBusca(abb, avl, sc, id_atual);
                         break;
                     case 0:
                         System.out.println("Voltando...");
-                        menuInicial();
                         break;
                     default:
                         System.out.println("Opção inválida!");
                         break;
                 }
             } catch (Exception e) {
-                sc.nextLine();
                 System.out.println("Opção inválida!");
             }
-        } while (opcao < 0 || opcao > 3);
-        sc.close();
+        } while (opcao != 0);
     }
 
-    public void menuEscolhaArvore() {
-        Scanner sc = new Scanner(System.in);
+    public void menuEscolhaArvore(Scanner sc) {
         int opcao = 0;
         boolean abb = false, avl = false;
         do {
@@ -97,39 +88,26 @@ public class Menu {
                 System.out.println("1 - Árvore ABB");
                 System.out.println("2 - Árovre AVL");
                 System.out.print("Escolha uma opção: ");
-                opcao = sc.nextInt();
-                sc.nextLine();
+                String entrada = sc.nextLine();
+                opcao = Integer.parseInt(entrada);
                 switch (opcao) {
                     case 1:
-                        abb = true;
-                        avl = false;
+                        menuAnaliseABB(sc);
                         break;
                     case 2:
-                        avl = true;
-                        abb = false;
+                        menuAnaliseAVL(sc);
                         break;
                     default:
                         System.out.println("Opção inválida!");
                         break;
                 }
             } catch (Exception e) {
-                sc.nextLine();
                 System.out.println("Opção inválida!");
             }
         } while (opcao < 0 || opcao > 2);
-
-        if (abb) {
-            menuAnaliseABB();
-        } else if (avl) {
-            menuAnaliseAVL();
-        } else {
-            System.out.println("Erro ao escolher a Árvore!");
-        }
-        sc.close();
     }
 
-    public void menuAnaliseABB() {
-        Scanner sc = new Scanner(System.in);
+    public void menuAnaliseABB(Scanner sc) {
         LeitorCSV leitor = new LeitorCSV();
         ABB<Estudante> arvore = leitor.leitorABB("C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv");
 
@@ -151,9 +129,8 @@ public class Menu {
                 System.out.println("6 - Impacto em conflitos de relacionamento");
                 System.out.println("0 - Voltar para o Menu Inicial");
                 System.out.print("Escolha uma opção: ");
-
-                opcao = sc.nextInt();
-                sc.nextLine();
+                String entrada = sc.nextLine();
+                opcao = Integer.parseInt(entrada);
 
                 switch (opcao) {
                     case 1:
@@ -186,23 +163,19 @@ public class Menu {
 						break;
                     case 0:
                         System.out.println("Voltando...");
-                        menuInicial();
                         break;
 
                     default:
                         System.out.println("Opção inválida!");
                 }
             } catch (Exception e) {
-                sc.nextLine();
                 System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
 
-        sc.close();
     }
 
-    public void menuAnaliseAVL() {
-        Scanner sc = new Scanner(System.in);
+    public void menuAnaliseAVL(Scanner sc) {
         LeitorCSV leitor = new LeitorCSV();
         AVL<Estudante> arvore = leitor.leitorAVL("C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv");
 
@@ -224,9 +197,8 @@ public class Menu {
                 System.out.println("6 - Impacto em conflitos de relacionamento");
                 System.out.println("0 - Voltar para o Menu Inicial");
                 System.out.print("Escolha uma opção: ");
-
-                opcao = sc.nextInt();
-                sc.nextLine();
+                String entrada = sc.nextLine();
+                opcao = Integer.parseInt(entrada);
 
                 switch (opcao) {
                     case 1:
@@ -261,18 +233,15 @@ public class Menu {
 
                     case 0:
                         System.out.println("Voltando...");
-                        menuInicial();
                         break;
 
                     default:
                         System.out.println("Opção inválida!");
                 }
             } catch (Exception e) {
-                sc.nextLine();
                 System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
 
-        sc.close();
     }
 }
