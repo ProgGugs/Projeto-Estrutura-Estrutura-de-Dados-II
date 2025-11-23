@@ -123,6 +123,12 @@ public class ABB <E extends Comparable<E>> {
         return contador.valor;
     }
 
+    public E buscarEstudante(E valor) {
+        Contador contador = new Contador();
+        NoABB no = buscar(raiz, valor, contador);
+        return (E) no.getValue();
+    }
+
     private NoABB buscar(NoABB no, E valor, Contador contador) {
         if (no == null) {
             return null; // não achou
@@ -175,6 +181,11 @@ public class ABB <E extends Comparable<E>> {
         Contador contador = new Contador();
         eliminar(raiz, null, e, contador);
         return contador.valor;
+    }
+
+    public boolean eliminarBool(Object e) {
+        Contador contador = new Contador();
+        return eliminar(raiz, null, e, contador);
     }
     //Rotina para eliminar
     private boolean eliminar(NoABB NoABB, NoABB paiRaiz, Object e, Contador contador) {  // remove um elemento da árvore, retorna true ou false

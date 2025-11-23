@@ -52,6 +52,9 @@ public class Estudante implements Comparable<Estudante> {
      */
     public Estudante() { }
 
+    /**
+     * Construtor que inicializa o objeto apenas com o 'studentId'
+     */
     public Estudante(int studentId) {
         this.studentId = studentId;
         this.idade = 0;

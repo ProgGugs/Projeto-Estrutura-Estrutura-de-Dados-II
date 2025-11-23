@@ -239,6 +239,21 @@ public class AVL<E extends Comparable<E>> {
         }
     }
 
+    public boolean removeAVLBool(E k) {
+        flagRemove = false;
+        if (isEmpty()) {
+            System.out.println("Erro ao remover, árvore AVL está vazia!");
+            return false;
+        } else if (searchAVL(k) == null) {
+            System.out.println("Erro ao remover, elemento não existe na árvore!");
+            return false;
+        } else {
+            Contador contador = new Contador();
+            raiz = removeNoAVL(raiz, k, contador);
+            return true;
+        }
+    }
+
     // Método privado recursivo
     private NoAVL removeNoAVL(NoAVL raiz, E x, Contador contador) {
         // Se o elemento for menor que a raiz, chamar recursivamente para o lado
