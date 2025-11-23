@@ -52,6 +52,22 @@ public class Estudante implements Comparable<Estudante> {
      */
     public Estudante() { }
 
+    public Estudante(int studentId) {
+        this.studentId = studentId;
+        this.idade = 0;
+        this.genero = "";
+        this.nivelAcademico = "";
+        this.pais = "";
+        this.mediaUsoDiario = 0.0;
+        this.appMaisUtilizado = "";
+        this.afetaDesempenhoAcademico = "";
+        this.horasDeSono = 0.0;
+        this.saudeMental = 0;
+        this.statusRelacionamento = "";
+        this.conflitosRedeSocial = 0;
+        this.vicio = 0;
+     }
+
     /**
      * Construtor completo, inicializa todos os atributos do estudante.
      */

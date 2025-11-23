@@ -20,13 +20,19 @@ public class ABB <E extends Comparable<E>> {
     public boolean isEmpty(){
         return raiz == null;
     }
-    //método inserir
-    public E inserir(E valor){
-        NoABB novo = new NoABB(valor);
-        inserir(novo, raiz);
-        return valor;
+
+    public class Contador {
+        public int valor = 0;
     }
-    public NoABB inserir(NoABB novo, NoABB anterior){
+
+    //método inserir
+    public int inserir(E valor){
+        NoABB novo = new NoABB(valor);
+        Contador contador = new Contador();
+        inserir(novo, raiz, contador);
+        return contador.valor;
+    }
+    public NoABB inserir(NoABB novo, NoABB anterior, Contador contador){
         if(raiz == null){ //ou if(isEmpty()){}
             raiz = novo;
             return raiz;
@@ -35,13 +41,15 @@ public class ABB <E extends Comparable<E>> {
             //processo de comparação para verificar qual 
             //lado será armazenado o NoABB
             //qdo o nó a ser inserido for menor que o anterior
+
+            contador.valor++;
             if(novo.getValue().compareTo(anterior.getValue())<0){
                 anterior.setFilhoEsq(
-                    inserir(novo,anterior.getFilhoEsq()));
+                    inserir(novo,anterior.getFilhoEsq(), contador));
             }
             else{
                 anterior.setFilhoDir(
-                    inserir(novo, anterior.getFilhoDir()));
+                    inserir(novo, anterior.getFilhoDir(), contador));
             }
         }
         else{
@@ -134,15 +142,18 @@ public class ABB <E extends Comparable<E>> {
     private int compara(Object ob1, Object ob2) {
         return ((Comparable) ob1).compareTo(((Comparable) ob2));
     }
-    public boolean eliminar(Object e) {
-        return eliminar(raiz, null, e);
+    public int eliminar(Object e) {
+        Contador contador = new Contador();
+        eliminar(raiz, null, e, contador);
+        return contador.valor;
     }
     //Rotina para eliminar
-    private boolean eliminar(NoABB NoABB, NoABB paiRaiz, Object e) {  // remove um elemento da árvore, retorna true ou false
+    private boolean eliminar(NoABB NoABB, NoABB paiRaiz, Object e, Contador contador) {  // remove um elemento da árvore, retorna true ou false
         NoABB aux;
         if (NoABB == null) {  // não achou o elemento, não existe (chegou em uma folha, ou árvore vazia)
                 return false;  // abandonamos o método retornando false, não foi possível eliminar
         } else { // a árvore ou sub-árvore não está vazia:
+            contador.valor++;
             if (compara(e, NoABB.getValue()) == 0) {  // se o nó a eliminar, NoABB, foi encontrado (ele guarda o objeto e)
                 aux = NoABB;
                 if (NoABB.getFilhoEsq() == null && NoABB.getFilhoDir() == null) {  // caso 1: se NoABB não possui filhos, basta eliminar o nó
@@ -191,9 +202,9 @@ public class ABB <E extends Comparable<E>> {
                 return true;  // fim dos casos em que o nó a eliminar foi encontrado, retornamos true
             } else { // se NoABB não é o nó a eliminar, continuamos procurando recursivamente:
                     if (compara(e, NoABB.getValue()) < 0) { // se o objeto e for menor que o objeto em NoABB, continuar procurando à esquerda:
-                        return eliminar(NoABB.getFilhoEsq(), NoABB, e);  // chamada recursiva
+                        return eliminar(NoABB.getFilhoEsq(), NoABB, e, contador);  // chamada recursiva
                     } else { // senão, procurar à direita:
-                        return eliminar(NoABB.getFilhoDir(), NoABB, e);  // chamada recursiva
+                        return eliminar(NoABB.getFilhoDir(), NoABB, e, contador);  // chamada recursiva
                     }
             }
         }
