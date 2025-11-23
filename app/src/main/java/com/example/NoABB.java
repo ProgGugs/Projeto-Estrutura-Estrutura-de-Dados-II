@@ -5,17 +5,21 @@ public class NoABB<E extends Comparable<E>> {
      * Classe NoABB é genérica, aceita um tipo E, desde que
      * esse tipo implemente a interface Comparable
      */
-    // atributos
+
+    /* Atributos da classe
+        Objeto + Referências para os filhos da Esquerda e da Direita */
     private E value;
     private NoABB filhoEsq;
     private NoABB filhoDir;
 
-    // construtor
+    // Construtor da classe
     NoABB(E value) {
         this.value = value;
         this.filhoDir = null;
         this.filhoEsq = null;
     }
+
+    // ---------------- GETTERS E SETTERS ----------------
 
     public E getValue() {
         return value;

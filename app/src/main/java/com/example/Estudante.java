@@ -1,25 +1,64 @@
 package com.example;
 
+/**
+ * Representa um estudante com diversos atributos pessoais, acadêmicos
+ * e comportamentais. A classe implementa Comparable para permitir
+ * ordenação/comparação baseada no studentId.
+ */
 public class Estudante implements Comparable<Estudante> {
+
+    // Identificador único do estudante (usado para comparação e ordenação)
     private int studentId;
+
+    // Idade do estudante
     private int idade;
+
+    // Gênero declarado (ex.: "Male", "Female")
     private String genero;
+
+    // Nível acadêmico atual (ex.: "High School", "Undergraduate", "Graduate")
     private String nivelAcademico;
+
+    // País de residência do estudante
     private String pais;
+
+    // Média de horas de uso diário de redes sociais
     private double mediaUsoDiario;
+
+    // Aplicativo de rede social mais utilizado no dia a dia
     private String appMaisUtilizado;
+
+    // Indica se o uso afeta o desempenho acadêmico (ex.: "Yes", "No")
     private String afetaDesempenhoAcademico;
+
+    // Quantidade média de horas de sono por noite
     private double horasDeSono;
+
+    // Indicador numérico de saúde mental (ex.: escala de 1 a 10)
     private int saudeMental;
+
+    // Status de relacionamento atual do estudante (ex.: "Single", "In Relationship")
     private String statusRelacionamento;
+
+    // Número de conflitos de relacionamento gerados por uso de redes sociais
     private int conflitosRedeSocial;
+
+    // Indicador numérico de vício em tecnologia (ex.: escala de 1 a 10)
     private int vicio;
 
+    /**
+     * Construtor padrão sem parâmetros.
+     * Útil para criar o objeto e preencher depois.
+     */
     public Estudante() { }
 
+    /**
+     * Construtor completo, inicializa todos os atributos do estudante.
+     */
     public Estudante(int studentId, int idade, String genero, String nivelAcademico, String pais,
             double mediaUsoDiario, String appMaisUtilizado, String afetaDesempenhoAcademico, double horasDeSono,
             int saudeMental, String statusRelacionamento, int conflitosRedeSocial, int vicio) {
+        
         this.studentId = studentId;
         this.idade = idade;
         this.genero = genero;
@@ -34,6 +73,8 @@ public class Estudante implements Comparable<Estudante> {
         this.conflitosRedeSocial = conflitosRedeSocial;
         this.vicio = vicio;
     }
+
+    // ---------------- GETTERS E SETTERS ----------------
 
     public int getStudentId() {
         return studentId;
@@ -139,20 +180,32 @@ public class Estudante implements Comparable<Estudante> {
         this.vicio = vicio;
     }
 
+    /**
+     * Representação textual resumida do estudante.
+     * Inclui apenas os campos principais para facilitar leitura.
+     */
     @Override
     public String toString() {
-        return "Estudante [studentId=" + studentId + ", idade=" + idade + ", genero=" + genero + ", nivelAcademico="
-                + nivelAcademico + ", pais=" + pais + ", saudeMental=" + saudeMental + ", vicio=" + vicio + "]";
+        return "Estudante [studentId=" + studentId + ", idade=" + idade + ", genero=" + genero + 
+                ", nivelAcademico=" + nivelAcademico + ", pais=" + pais + 
+                ", saudeMental=" + saudeMental + ", vicio=" + vicio + "]";
     }
 
+    /**
+     * Implementação da comparação entre estudantes.
+     * A ordenação é baseada apenas no studentId.
+     *
+     * @return -1 se este estudante tem ID menor,
+     *          0 se tem ID igual,
+     *          1 se tem ID maior.
+     */
     @Override
     public int compareTo(Estudante e) {
-        if(this.studentId < e.getStudentId())
+        if (this.studentId < e.getStudentId())
             return -1;
+        else if (this.studentId == e.getStudentId())
+            return 0;
         else
-            if(this.studentId == e.getStudentId())        
-                return 0;
-            else
-                return 1;
-    } 
+            return 1;
+    }
 }

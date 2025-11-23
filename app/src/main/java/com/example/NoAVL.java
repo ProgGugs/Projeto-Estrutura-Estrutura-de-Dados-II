@@ -1,12 +1,18 @@
 package com.example;
 
 public class NoAVL<E extends Comparable<E>> {
-	private E dado;            //Dado do nó
-	private NoAVL pai;		//Pai do nó
-	private NoAVL esq;		//Filho Esquerdo
-	private NoAVL dir;		//Filho Direito
-	private int fb;			//Fator de Balanceamento
-		
+	  /*
+     * Classe NoAVL é genérica, aceita um tipo E, desde que
+     * esse tipo implemente a interface Comparable
+     */
+
+	private E dado;     // Dado do nó
+	private NoAVL pai;	// Pai do nó
+	private NoAVL esq;	// Filho Esquerdo
+	private NoAVL dir;	// Filho Direito
+	private int fb;		// Fator de Balanceamento
+	
+	// Construtores da classe
 	public NoAVL(E x, NoAVL p, NoAVL e, NoAVL d)	{
 		dado = x;
 		pai  = p;
@@ -14,10 +20,6 @@ public class NoAVL<E extends Comparable<E>> {
 		dir  = d;
         fb = 0;
 	}
-	
-    public String toString() {
-        return dado.toString();
-    }
         
 	public NoAVL() {
 		this(null,null,null,null);
@@ -26,7 +28,9 @@ public class NoAVL<E extends Comparable<E>> {
 	public NoAVL(E _dado) {
 		this(_dado,null,null,null);
 	}
-	
+
+	// ---------------- GETTERS E SETTERS ----------------
+
 	public E getDado() {
 		return dado;
 	}
@@ -66,5 +70,11 @@ public class NoAVL<E extends Comparable<E>> {
 	public int getFb() {
 		return fb;
 	}
+
+	// Método "toString()" da NoAVL chama o "toString()" do dado que a classe tem como atributo
+	@Override
+	public String toString() {
+        return dado.toString();
+    }
 	
 }

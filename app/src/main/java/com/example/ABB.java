@@ -1,6 +1,8 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class ABB <E extends Comparable<E>> {
@@ -59,6 +61,16 @@ public class ABB <E extends Comparable<E>> {
             emOrdem(no.getFilhoDir());
         }
     }
+
+    private List<NoABB> emOrdem(List<NoABB> lista, NoABB no){
+        if(no != null){
+            emOrdem(lista, no.getFilhoEsq());
+            lista.add(no);
+            emOrdem(lista, no.getFilhoDir());
+        }
+        return lista;
+    }
+
     //pré-ordem
     public void preOrdem(){
         preOrdem(raiz);
@@ -185,8 +197,22 @@ public class ABB <E extends Comparable<E>> {
                     }
             }
         }
-
-
     }
-    
+
+    public NoABB balanceamentoEstatico(NoABB raiz) {
+        List<NoABB> lista = new ArrayList<>();
+        emOrdem(lista, raiz);
+        return balanceamentoEstatico(lista, 0, lista.size() - 1);
+    }
+
+    private NoABB balanceamentoEstatico(List<NoABB> lista, int inicio, int fim) {
+        if (inicio >  fim) {
+            return null;
+        }
+        int meio = (inicio + fim) / 2;
+        NoABB no = lista.get(meio);
+        no.setFilhoEsq(balanceamentoEstatico(lista, inicio, meio-1));
+        no.setFilhoDir(balanceamentoEstatico(lista, meio+1, fim));
+        return no;
+    }
 }

@@ -10,7 +10,7 @@ public class Menu {
     public void menuABB() {
         Scanner sc = new Scanner(System.in);
         LeitorCSV leitor = new LeitorCSV();
-        ABB<Estudante> arvore = leitor.leitorABB();
+        ABB<Estudante> arvore = leitor.leitorABB("C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv");
 
         if (arvore == null || arvore.getRaiz() == null) {
             System.out.println("Erro: árvore não carregada!");
@@ -72,7 +72,7 @@ public class Menu {
     public void menuAVL() {
         Scanner sc = new Scanner(System.in);
         LeitorCSV leitor = new LeitorCSV();
-        AVL<Estudante> arvore = leitor.leitorAVL();
+        AVL<Estudante> arvore = leitor.leitorAVL("C:\\Ciência da Computação\\4º Semestre\\Estrutura de Dados II\\Projetos\\Projeto 2\\Projeto-Estrutura-Estrutura-de-Dados-II\\app\\src\\main\\resources\\Students Social Media Addiction.csv");
 
         if (arvore == null || arvore.getRaiz() == null) {
             System.out.println("Erro: árvore não carregada!");
