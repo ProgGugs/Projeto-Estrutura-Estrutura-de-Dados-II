@@ -12,7 +12,7 @@ public class Menu {
         do {
             try {
                 System.out.println("\n====== MENU INICIAL ======");
-                System.out.println("1 - Análise Eploratória");
+                System.out.println("1 - Análise Exploratória");
                 System.out.println("2 - Comparativo de Desempenho (ABB x AVL)");
                 System.out.println("0 - Sair");
                 System.out.print("Escolha uma opção: "); 
